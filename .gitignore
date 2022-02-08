@@ -1,0 +1,7 @@
+.vscode
+*.dSYM
+.DS_Store
+.DS_store
+test
+tst
+*.txt
