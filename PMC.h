@@ -28,7 +28,6 @@ class Machine {
     Cell defMem[MACHINE_MEM_SIZE];
     uint16_t defPC;
     Cell mem[MACHINE_MEM_SIZE];
-    uint16_t PC;
 
     // commands
     void stop ();
@@ -49,6 +48,7 @@ class Machine {
 
     public:
     int16_t AC;
+    uint16_t PC;
     bool isWorking;
 
     Machine (Cell memory[MACHINE_MEM_SIZE], uint16_t PCstart);

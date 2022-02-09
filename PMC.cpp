@@ -90,10 +90,10 @@ int16_t Machine::GetOR ()
             return (*this)[PC].get_argument();
 
         case 0b1:
-            return (*this)[ (*this)[PC].get_adressing() ].value;
+            return (*this)[ (*this)[PC].get_argument() ].value;
 
         case 0b10:
-            return (*this)[ (*this)[ (*this)[PC].get_adressing() ].value ].value;
+            return (*this)[ (*this)[ (*this)[PC].get_argument() ].value ].value;
 
         case 0b11:
             return (*this)[ (*this)[PC].get_argument() + AC ].value;
@@ -113,6 +113,7 @@ void Machine::stop ()
 void Machine::load ()
 {
     AC = this->GetOR();
+    PC++;
 }
 
 void Machine::store ()
@@ -120,6 +121,7 @@ void Machine::store ()
     int16_t OR = this->GetOR();
 
     (*this)[OR] = AC;
+    PC++;
 }
 
 void Machine::jump ()
@@ -131,47 +133,58 @@ void Machine::jneg ()
 {
     if ( AC < 0 )
         PC = this->GetOR();
+    else
+        PC++;
 }
 
 void Machine::jzero ()
 {
     if ( AC == 0 )
         PC = this->GetOR();
+    else
+        PC++;
 }
 
 void Machine::add ()
 {
     AC = AC + this->GetOR();
+    PC++;
 }
 
 void Machine::sub ()
 {
     AC = AC - this->GetOR();
+    PC++;
 }
 
 void Machine::mult ()
 {
     AC = AC * this->GetOR();
+    PC++;
 }
 
 void Machine::div ()
 {
     AC = AC / this->GetOR();
+    PC++;
 }
 
 void Machine::and_ ()
 {
     AC = AC & this->GetOR();
+    PC++;
 }
 
 void Machine::or_ ()
 {
     AC = AC | this->GetOR();
+    PC++;
 }
 
 void Machine::not_ ()
 {
     AC = ~( this->GetOR() );
+    PC++;
 }
 
 void Machine::cmp ()
@@ -180,6 +193,8 @@ void Machine::cmp ()
         AC = -1;
     else
         AC = 0;
+
+    PC++;
 }
 
 void Machine::shz ()
@@ -190,6 +205,8 @@ void Machine::shz ()
         AC >>= -OR;
     else
         AC <<= OR;
+
+    PC++;
 }
 
 void Machine::step ()
