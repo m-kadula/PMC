@@ -16,18 +16,11 @@ const std::string cmdMap[CMD_MAP_SIZE] {
 
 class ParsingException: public std::exception {};
 
-bool MatchCommand (
-    const std::string& line,
-    uint16_t& index,
-    uint16_t& command,
-    uint16_t& adressing,
-    uint16_t& argument
-);
-
-bool MatchStopCommand (const std::string& line, uint16_t& index);
-bool MatchAssign (const std::string& line, uint16_t& index, uint16_t& value);
-bool MatchEmptyLine (const std::string& line);
-
-void Parse (std::string fileName, Cell memory[MACHINE_MEM_SIZE]);
+bool MatchIndex (const std::string& line, uint16_t& index, size_t& pntr);
+bool MatchCommand (const std::string line, uint16_t& command, size_t& pntr);
+bool MatchAddress (const std::string& line, uint16_t& addressing, size_t& pntr);
+bool MatchAgrument (const std::string& line, uint16_t& argument, size_t& pntr);
+bool MatchAnnotation (const std::string& line, size_t& pntr);
+long Parse (std::string fileName, Cell memory[MACHINE_MEM_SIZE]);
 
 #endif
