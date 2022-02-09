@@ -11,7 +11,7 @@ int main (int argc, char ** argv)
     size_t start = 0;
     std::string file;
     std::string tmp;
-    Cell mem[512];
+    Cell mem[MACHINE_MEM_SIZE];
     bool debug = false;
 
     if ( argc > 1 ) {

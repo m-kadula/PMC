@@ -12,3 +12,7 @@ Instrukcja:
 
 Przykład wywołania:
     $ PMC kod.txt -p 6 -d
+
+Syntax:
+   <index>: <command> <$|@|&|+> ; opcjonalny komentarz
+   4: LOAD @ 100 ; AC <- MEM[100]
