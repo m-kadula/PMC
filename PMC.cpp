@@ -4,8 +4,6 @@
 #include <exception>
 #include "PMC.h"
 
-#define MACHINE_MEM_SIZE 512
-
 // Cell contents
 
 Cell::Cell ()
@@ -224,7 +222,7 @@ void Machine::step ()
         case 2:
             this->store();
             break;
-        
+
         case 3:
             this->jump();
             break;

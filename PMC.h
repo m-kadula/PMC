@@ -11,7 +11,7 @@
 class MemoryException: public std::exception {};
 
 struct Cell {
-    int16_t value;  // might cause problems in uint16_t methods
+    int16_t value;
     bool isCommand;
 
     Cell ();

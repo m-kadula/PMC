@@ -43,6 +43,10 @@ bool MatchIndex (const std::string& line, uint16_t& index, size_t& pntr)
         return false;
 
     index = (uint16_t) std::stoi( ind );
+
+    if ( index >= MACHINE_MEM_SIZE )
+        return false;
+
     pntr = i + 1;
 
     return true;
@@ -108,7 +112,7 @@ bool MatchAddress (const std::string& line, uint16_t& addressing, size_t& pntr)
         case '$':
             addressing = 0;
             break;
-        
+
         case '@':
             addressing = 1;
             break;
@@ -238,7 +242,13 @@ long Parse (std::string fileName, Cell memory[MACHINE_MEM_SIZE])
                 }
 
             } else if ( MatchAgrument(line, argument, pntr) ) {
-                memory[index] = Cell(argument);
+
+                if ( MatchAnnotation(line, pntr) ) {
+                    memory[index] = Cell(argument);
+
+                } else {
+                    errorFlag = true;
+                }
 
             } else {
                 errorFlag = true;
@@ -250,7 +260,7 @@ long Parse (std::string fileName, Cell memory[MACHINE_MEM_SIZE])
 
         if ( errorFlag )
             break;
-        
+
         lineIndex++;
     }
 
