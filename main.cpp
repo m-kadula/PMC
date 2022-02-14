@@ -43,9 +43,9 @@ std::string MakeTable (Machine& pmc)
 
         };
 
-        index = std::to_string(i);
+        index = std::to_string(i) + ' ';
         for ( j = index.length(); j < NUM_LEN; j++ )
-            index += ' ';
+            index = ' ' + index;
 
         cmd = cmdMap[ pmc[i].get_command() ];
         for ( j = cmd.length(); j < CMD_LEN; j++ )
@@ -75,11 +75,12 @@ std::string MakeTable (Machine& pmc)
 int main (int argc, char ** argv)
 {
     size_t i;
-    size_t start = 0;
+    size_t start;
     std::string file;
     std::string tmp;
     Cell mem[MACHINE_MEM_SIZE];
     bool debug = false;
+    long parseCode;
 
     if ( argc > 1 ) {
         file = argv[1];
@@ -87,6 +88,21 @@ int main (int argc, char ** argv)
         std::cout << "Error: no file." << std::endl;
         return 1;
     }
+
+    parseCode = Parse( file, mem );
+
+    if ( parseCode == -1 ) {
+        std::cout << "Error: file not found." << std::endl;
+        return 1;
+
+    } else if ( parseCode != 0 ) {
+        std::cout << "Error: on line " << parseCode << std::endl;
+        return 1;
+    }
+
+    start = 0;
+    while ( start < MACHINE_MEM_SIZE && !(mem[start].isCommand) )
+        start++;
 
     for ( i = 2; i < argc; i++ ) {
 
@@ -116,17 +132,6 @@ int main (int argc, char ** argv)
             return 2;
         }
 
-    }
-
-    size_t x = Parse( file, mem );
-
-    if ( x == -1 ) {
-        std::cout << "Error: file not found." << std::endl;
-        return 1;
-
-    } else if ( x != 0 ) {
-        std::cout << "Error: on line " << x << std::endl;
-        return 1;
     }
 
     Machine mn (mem, start);

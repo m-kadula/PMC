@@ -52,7 +52,7 @@ bool MatchIndex (const std::string& line, uint16_t& index, size_t& pntr)
     return true;
 }
 
-bool MatchCommand (const std::string line, uint16_t& command, size_t& pntr)
+bool MatchCommand (const std::string& line, uint16_t& command, size_t& pntr)
 {
     size_t i, j;
     std::string cmd;
