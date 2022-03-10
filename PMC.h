@@ -29,23 +29,6 @@ class Machine {
     uint16_t defPC;
     Cell mem[MACHINE_MEM_SIZE];
 
-    // commands
-    void stop ();
-    void load ();
-    void store ();
-    void jump ();
-    void jneg ();
-    void jzero ();
-    void add ();
-    void sub ();
-    void mult ();
-    void div ();
-    void and_ ();
-    void or_ ();
-    void not_ ();
-    void cmp ();
-    void shz ();
-
     public:
     int16_t AC;
     uint16_t PC;

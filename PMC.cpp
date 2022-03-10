@@ -101,174 +101,96 @@ int16_t Machine::GetOR ()
     return 0;
 }
 
-// commands
-
-void Machine::stop ()
-{
-    isWorking = false;
-}
-
-void Machine::load ()
-{
-    AC = this->GetOR();
-    PC++;
-}
-
-void Machine::store ()
-{
-    int16_t OR = this->GetOR();
-
-    (*this)[OR] = AC;
-    PC++;
-}
-
-void Machine::jump ()
-{
-    PC = this->GetOR();
-}
-
-void Machine::jneg ()
-{
-    if ( AC < 0 )
-        PC = this->GetOR();
-    else
-        PC++;
-}
-
-void Machine::jzero ()
-{
-    if ( AC == 0 )
-        PC = this->GetOR();
-    else
-        PC++;
-}
-
-void Machine::add ()
-{
-    AC = AC + this->GetOR();
-    PC++;
-}
-
-void Machine::sub ()
-{
-    AC = AC - this->GetOR();
-    PC++;
-}
-
-void Machine::mult ()
-{
-    AC = AC * this->GetOR();
-    PC++;
-}
-
-void Machine::div ()
-{
-    AC = AC / this->GetOR();
-    PC++;
-}
-
-void Machine::and_ ()
-{
-    AC = AC & this->GetOR();
-    PC++;
-}
-
-void Machine::or_ ()
-{
-    AC = AC | this->GetOR();
-    PC++;
-}
-
-void Machine::not_ ()
-{
-    AC = ~( this->GetOR() );
-    PC++;
-}
-
-void Machine::cmp ()
-{
-    if ( AC == this->GetOR() )
-        AC = -1;
-    else
-        AC = 0;
-
-    PC++;
-}
-
-void Machine::shz ()
-{
-    int16_t OR = this->GetOR();
-
-    if (OR < 0)
-        AC >>= -OR;
-    else
-        AC <<= OR;
-
-    PC++;
-}
-
 void Machine::step ()
 {
+    int16_t OR;
+
     switch ( (*this)[PC].get_command() ) {
 
-        case 0:
-            this->stop();
+        case 0:  // STOP
+            isWorking = false;
             break;
 
-        case 1:
-            this->load();
+        case 1:  // LOAD
+            AC = this->GetOR();
+            PC++;
             break;
 
-        case 2:
-            this->store();
+        case 2:  // STORE
+            OR = this->GetOR();
+            (*this)[OR] = AC;
+            PC++;
             break;
 
-        case 3:
-            this->jump();
+        case 3:  // JUMP
+            PC = this->GetOR();
             break;
 
-        case 4:
-            this->jneg();
+        case 4:  // JNEG
+            if ( AC < 0 )
+                PC = this->GetOR();
+            else
+                PC++;
             break;
 
-        case 5:
-            this->jzero();
+        case 5:  // JZERO
+            if ( AC == 0 )
+                PC = this->GetOR();
+            else
+                PC++;
             break;
 
-        case 6:
-            this->add();
+        case 6:  // ADD
+            AC = AC + this->GetOR();
+            PC++;
             break;
 
-        case 7:
-            this->sub();
+        case 7:  // SUB
+            AC = AC - this->GetOR();
+            PC++;
             break;
 
-        case 8:
-            this->mult();
+        case 8:  // MULT
+            AC = AC * this->GetOR();
+            PC++;
             break;
 
-        case 9:
-            this->div();
+        case 9:  // DIV
+            AC = AC / this->GetOR();
+            PC++;
             break;
 
-        case 10:
-            this->and_();
+        case 10: // AND
+            AC = AC & this->GetOR();
+            PC++;
             break;
 
-        case 11:
-            this->or_();
+        case 11: // OR
+            AC = AC | this->GetOR();
+            PC++;
             break;
 
-        case 12:
-            this->not_();
+        case 12: // NOT
+            AC = ~( this->GetOR() );
+            PC++;
             break;
 
-        case 13:
-            this->cmp();
+        case 13: // CMP
+            if ( AC == this->GetOR() )
+                AC = -1;
+            else
+                AC = 0;
+            PC++;
             break;
 
-        case 14:
-            this->shz();
+        case 14: // ZSH
+            OR = this->GetOR();
+            if (OR < 0)
+                AC >>= -OR;
+            else
+                AC <<= OR;
+
+            PC++;
             break;
 
         default:
